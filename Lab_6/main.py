@@ -3,18 +3,22 @@ import math
 import matplotlib.pyplot as plt
 
 
-def f(x,t):
+def f(x, t):
     return x
 
+def f0(x,t):
+    return 0
+
 def Ux(x):
-    return x**2-x-1
+    return x ** 2 - x - 1
+
 
 def Ut_0(t):
-    return t**2-t-1
+    return t ** 2 - t - 1
 
 
 def Ut_1(t):
-    return t**2-t-1
+    return t ** 2 - t - 1
 
 
 def Scheme_One(I, J, tau, U, f, x, t):
@@ -53,6 +57,8 @@ def Scheme_Four(I, J, tau, U, f, x, t, a, h):
             for j in range(0, J):
                 U[i][j + 1] = U[i + 1][j] - tau * f(x[i] + h / 2, t[j] + tau / 2)
     return U
+
+
 # End of block
 
 
@@ -117,54 +123,106 @@ I = int((x_end - x_start) / h)
 J = int((time_end - time_start) / tau)
 graph = []
 
-for i in range(0,2):
+for i in range(0, 2):
     a = -a
     rectangle = False
     if a > 0:
         x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
-        U = Scheme_One(I+J, J, tau, U, f, x, t)
+        U = Scheme_One(I + J, J, tau, U, f0, x, t)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
         U = U[J:J + I + 1, :]
 
-        graph.append([x,t,U])
+        graph.append([x, t, U])
     else:
         x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
-        U = Scheme_Two(I+J, J, tau, U, f, x, t)
+        U = Scheme_Two(I + J, J, tau, U, f0, x, t)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
         U = U[0:I + 1, :]
 
-        graph.append([x,t,U])
+        graph.append([x, t, U])
     rectangle = True
     if a > 0:
         x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
-        U = Scheme_One(I, J, tau, U, f, x, t)
+        U = Scheme_One(I, J, tau, U, f0, x, t)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
-        graph.append([x,t,U])
+        graph.append([x, t, U])
 
         x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
-        U = Scheme_Three(I, J, tau, U, f, x, t, a)
+        U = Scheme_Three(I, J, tau, U, f0, x, t, a)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
-        graph.append([x,t,U])
+        graph.append([x, t, U])
 
         x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
-        U = Scheme_Four(I, J, tau, U, f, x, t, a, h)
+        U = Scheme_Four(I, J, tau, U, f0, x, t, a, h)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
-        graph.append([x,t,U])
+        graph.append([x, t, U])
     else:
 
         x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
-        U = Scheme_Two(I, J, tau, U, f, x, t)
+        U = Scheme_Two(I, J, tau, U, f0, x, t)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
-        graph.append([x,t,U])
+        graph.append([x, t, U])
 
         x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
-        U = Scheme_Three(I, J, tau, U, f, x, t, a)
+        U = Scheme_Three(I, J, tau, U, f0, x, t, a)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
-        graph.append([x,t,U])
+        graph.append([x, t, U])
 
         x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
-        U = Scheme_Four(I, J, tau, U, f, x, t, a, h)
+        U = Scheme_Four(I, J, tau, U, f0, x, t, a, h)
         x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
-        graph.append([x,t,U])
-        
+        graph.append([x, t, U])
+
+# Для правой части из варианта
+'''
+for i in range(0, 2):
+    a = -a
+    rectangle = False
+    if a > 0:
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
+        U = Scheme_One(I + J, J, tau, U, f, x, t)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        U = U[J:J + I + 1, :]
+
+        graph.append([x, t, U])
+    else:
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
+        U = Scheme_Two(I + J, J, tau, U, f, x, t)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        U = U[0:I + 1, :]
+
+        graph.append([x, t, U])
+    rectangle = True
+    if a > 0:
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
+        U = Scheme_One(I, J, tau, U, f0, x, t)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        graph.append([x, t, U])
+
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
+        U = Scheme_Three(I, J, tau, U, f0, x, t, a)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        graph.append([x, t, U])
+
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_0, rectangle)
+        U = Scheme_Four(I, J, tau, U, f0, x, t, a, h)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        graph.append([x, t, U])
+    else:
+
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
+        U = Scheme_Two(I, J, tau, U, f0, x, t)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        graph.append([x, t, U])
+
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
+        U = Scheme_Three(I, J, tau, U, f0, x, t, a)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        graph.append([x, t, U])
+
+        x, t, U = init(I, J, h, tau, a, Ux, Ut_1, rectangle)
+        U = Scheme_Four(I, J, tau, U, f0, x, t, a, h)
+        x, t = np.linspace(x_start, x_end, I + 1), np.linspace(time_start, time_end, J + 1)
+        graph.append([x, t, U])
+'''
 draw_plot(graph)

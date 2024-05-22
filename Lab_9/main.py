@@ -52,13 +52,13 @@ z = x - x
 for i in range(0, p):
     for j in range(0, q):
         z[i][j] = U[i][j]
-a
+
 fig = plt.figure(figsize=plt.figaspect(0.5))
 axes = fig.add_subplot(1, 2, 1, projection='3d')
 axes.set_xlabel("x")
 axes.set_ylabel("t")
 axes.set_zlabel("U(x,t)")
-suf = axes.plot_surface(x, y, z, rstride=1, cstride=15, cmap='plasma', edgecolor='none')
+suf = axes.plot_surface(x, y, z, rstride=1, cstride=15, cmap='viridis', edgecolor='none')
 plt.show()
 
 U = [0] * p
@@ -115,5 +115,5 @@ axes = fig.add_subplot(1, 2, 1, projection='3d')
 axes.set_xlabel("x")
 axes.set_ylabel("t")
 axes.set_zlabel("U(x,t)")
-suf = axes.plot_surface(x, y, z, rstride=1, cstride=15, cmap='plasma', edgecolor='none')
+suf = axes.plot_surface(x, y, z, rstride=1, cstride=15, cmap='viridis', edgecolor='none')
 plt.show()

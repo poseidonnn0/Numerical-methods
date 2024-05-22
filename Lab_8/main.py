@@ -14,7 +14,7 @@ D = 1
 l_ambda = (D * tau / h) ** 2
 f = lambda x: 0
 U_0 = lambda x,t: x ** 2
-der_U_t = lambda x: 1
+der_U_t = lambda x: -2
 U_t_0 = lambda x,t: 0
 U_t_1 = lambda x,t: 1
 def Scheme1(a, b, c, d, tau, l_ambda):
@@ -94,7 +94,34 @@ def draw(a, b, c, d, h, tau, u, method):
     t = np.arange(c, d, tau)
     x, t = np.meshgrid(x, t)
     fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-    ax.plot_surface(t, x, u, cmap=cm.coolwarm)
+    ax.set_xlabel("t")
+    ax.set_ylabel("x")
+    ax.set_zlabel("U(x,t)")
+    ax.plot_surface(t, x, u, cmap=cm.viridis)
+    ax.set_title(method.title())
+    plt.show()
+
+def draw_1(a, b, c, d, h, tau, u, method):
+    x = np.arange(a, b, h)
+    t = np.arange(c, d, tau)
+    x, t = np.meshgrid(x, t)
+    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    ax.set_xlabel("t")
+    ax.set_ylabel("x")
+    ax.set_zlabel("U(x,t)")
+    ax.plot_surface(t, x, u, cmap=cm.plasma)
+    ax.set_title(method.title())
+    plt.show()
+
+def draw_2(a, b, c, d, h, tau, u, method):
+    x = np.arange(a, b, h)
+    t = np.arange(c, d, tau)
+    x, t = np.meshgrid(x, t)
+    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    ax.set_xlabel("t")
+    ax.set_ylabel("x")
+    ax.set_zlabel("U(x,t)")
+    ax.plot_surface(t, x, u, cmap=cm.cividis)
     ax.set_title(method.title())
     plt.show()
 
@@ -102,5 +129,5 @@ u1 = Scheme1(a, b, c, d, tau, l_ambda)
 u2 = Scheme2(a, b, c, d, tau, l_ambda)
 u3 = Scheme3(a, b, c, d, tau, l_ambda)
 draw(a, b, c, d, h, tau, u1, "Явный метод")
-draw(a, b, c, d, h, tau, u2, "Неявный метод, схема 1")
-draw(a, b, c, d, h, tau, u3, "Неявный метод, схема 2")
+draw_1(a, b, c, d, h, tau, u1, "Неявный метод, схема 1")
+draw_2(a, b, c, d, h, tau, u1, "Неявный метод, схема 2")
